@@ -1,0 +1,6 @@
+namespace: metallb-system
+
+resources:
+- namespace.yaml
+- metallb.yaml
+- cm.yaml

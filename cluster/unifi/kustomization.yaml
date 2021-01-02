@@ -1,0 +1,6 @@
+namespace: unifi
+
+resources:
+- namespace.yaml
+- pvc.yaml
+- pod.yaml

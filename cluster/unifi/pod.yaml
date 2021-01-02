@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: controller-1
+spec:
+  hostNetwork: true
+  containers:
+  - name: unifi
+    image: jacobalberty/unifi:stable-6
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: volv
+      mountPath: /unifi
+#    ports:
+#    - containerPort: 80
+  volumes:
+  - name: volv
+    persistentVolumeClaim:
+      claimName: unifi

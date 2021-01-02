@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loggbro
+  labels:
+    app: loggbro
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loggbro
+  template:
+    metadata:
+      labels:
+        app: loggbro
+    spec:
+      containers:
+      - name: loggbro
+        image: ghcr.io/chlunde/loggbro:c6782b9cf4d65ca8e34a50d99cb48ded83e2e2c9
+        env:
+        - name: HUMIO_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: humio
+              key: HUMIO_TOKEN
+        ports:
+        - containerPort: 514
