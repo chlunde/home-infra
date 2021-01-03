@@ -33,4 +33,5 @@ jobs:
           files: 'cluster'
           ignore_missing_schemas: true
           ignored_path_patterns: '\.sops\.yaml$'
+          strict: false # ignore .sops..
 
