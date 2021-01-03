@@ -2,5 +2,6 @@ namespace: cert-manager
 
 resources:
 - namespace.yaml
+- cf-secret.yaml
 - cert-manager-chart.yaml
 - cert-manager-config.yaml
