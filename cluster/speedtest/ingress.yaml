@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  namespace: speedtest
+  name: speedtest
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  tls:
+    - secretName: speedtest-tls
+      hosts:
+        - speedtest.int.juicebot.net
+  rules:
+  - host: speedtest.int.juicebot.net
+    http:
+      paths:
+        - path: /
+          backend:
+            serviceName: speedtest
+            servicePort: 8080
