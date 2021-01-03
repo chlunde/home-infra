@@ -29,6 +29,7 @@ jobs:
       - name: Kubeval
         uses: instrumenta/kubeval-action@a4e3d91
         with:
+          version: "1.20.0"
           files: 'cluster'
           ignored_path_patterns: '\.sops\.yaml$'
 
