@@ -27,4 +27,11 @@ jobs:
       - name: Secret Detector
         uses: evanextreme/detect-secrets-action@1.0.0
       - name: Kubeval
-        uses: instrumenta/kubeval-action@master
+        uses: instrumenta/kubeval-action@a4e3d91
+        with:
+          version: "master"
+          files: 'cluster'
+          ignore_missing_schemas: true
+          ignored_path_patterns: '\.sops\.yaml$'
+          strict: false # ignore .sops..
+
