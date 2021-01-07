@@ -22,6 +22,7 @@ spec:
     additionalArguments:
     #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
     - "--serverstransport.insecureskipverify=true"
+    - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
     - "--log.level=DEBUG"
     logs:
       general:
