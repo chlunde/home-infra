@@ -1,0 +1,5 @@
+resources:
+- velero.yaml
+- cloud-credentials.yaml
+- schedule.yaml
+
