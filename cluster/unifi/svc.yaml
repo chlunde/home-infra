@@ -8,10 +8,18 @@ metadata:
      metallb.universe.tf/allow-shared-ip: unifi
 spec:
   ports:
-  - protocol: TCP
+  - port: 8080 # TCP	8080	Port used for device and controller communication.
+    name: http
+  - port: 8443 # TCP	8443	Port used for controller GUI/API as seen in a web browser
     name: https
-    port: 8443
-    targetPort: 8443
+  - port: 8880 # TCP	8880	Port used for HTTP portal redirection.
+    name: http-portal
+  - port: 8843 # TCP	8843	Port used for HTTPS portal redirection.
+    name: https-portal
+  - port: 6789 # TCP	6789	Port used for UniFi mobile speed test.
+    name: speedtest
+  - port: 27117 # TCP 27117	Port used for local-bound database communication.
+    name: db
   selector:
     app: unifi
   type: LoadBalancer
