@@ -4,6 +4,8 @@ kind: Service
 metadata:
   namespace: unifi
   name: unifi
+  annotations:
+     metallb.universe.tf/allow-shared-ip: unifi
 spec:
   ports:
   - protocol: TCP
@@ -12,3 +14,5 @@ spec:
     targetPort: 8443
   selector:
     app: unifi
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.222

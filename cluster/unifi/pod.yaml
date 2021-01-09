@@ -15,8 +15,162 @@ spec:
     - name: volv
       mountPath: /unifi
     ports:
-    - containerPort: 8443
+    - containerPort: 3478 # UDP	3478	Port used for STUN.
+      protocol: UDP
+      name: stun
+    - containerPort: 5514 # UDP	5514	Port used for remote syslog capture.
+      protocol: UDP
+      name: syslog
+    - containerPort: 8080 # TCP	8080	Port used for device and controller communication.
+      name: http
+    - containerPort: 8443 # TCP	8443	Port used for controller GUI/API as seen in a web browser
       name: https
+    - containerPort: 8880 # TCP	8880	Port used for HTTP portal redirection.
+      name: http-portal
+    - containerPort: 8843 # TCP	8843	Port used for HTTPS portal redirection.
+      name: https-portal
+    - containerPort: 6789 # TCP	6789	Port used for UniFi mobile speed test.
+      name: speedtest
+    - containerPort: 27117 # TCP 27117	Port used for local-bound database communication.
+      name: db
+    - containerPort: 5656 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5656
+    - containerPort: 5657 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5657
+    - containerPort: 5658 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5658
+    - containerPort: 5659 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5659
+    - containerPort: 5660 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5660
+    - containerPort: 5661 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5661
+    - containerPort: 5662 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5662
+    - containerPort: 5663 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5663
+    - containerPort: 5664 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5664
+    - containerPort: 5665 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5665
+    - containerPort: 5666 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5666
+    - containerPort: 5667 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5667
+    - containerPort: 5668 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5668
+    - containerPort: 5669 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5669
+    - containerPort: 5670 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5670
+    - containerPort: 5671 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5671
+    - containerPort: 5672 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5672
+    - containerPort: 5673 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5673
+    - containerPort: 5674 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5674
+    - containerPort: 5675 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5675
+    - containerPort: 5676 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5676
+    - containerPort: 5677 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5677
+    - containerPort: 5678 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5678
+    - containerPort: 5679 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5679
+    - containerPort: 5680 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5680
+    - containerPort: 5681 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5681
+    - containerPort: 5682 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5682
+    - containerPort: 5683 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5683
+    - containerPort: 5684 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5684
+    - containerPort: 5685 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5685
+    - containerPort: 5686 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5686
+    - containerPort: 5687 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5687
+    - containerPort: 5688 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5688
+    - containerPort: 5689 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5689
+    - containerPort: 5690 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5690
+    - containerPort: 5691 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5691
+    - containerPort: 5692 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5692
+    - containerPort: 5693 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5693
+    - containerPort: 5694 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5694
+    - containerPort: 5695 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5695
+    - containerPort: 5696 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5696
+    - containerPort: 5697 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5697
+    - containerPort: 5698 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5698
+    - containerPort: 5699 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+      protocol: UDP
+      name: ap-edu-5699
+    - containerPort: 10001 # UDP	10001	Port used for device discovery
+      protocol: UDP
+      name: devdisco
+    - containerPort: 1900 # UDP	1900	Port used for "Make controller discoverable on L2 network" in controller settings.
+      protocol: UDP
+      name: disco
   volumes:
   - name: volv
     persistentVolumeClaim:

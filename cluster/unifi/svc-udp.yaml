@@ -1,0 +1,158 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: unifi
+  name: unifi-udp
+  annotations:
+     metallb.universe.tf/allow-shared-ip: unifi
+spec:
+  ports:
+  - port: 3478 # UDP	3478	Port used for STUN.
+    protocol: UDP
+    name: stun
+  - port: 5514 # UDP	5514	Port used for remote syslog capture.
+    protocol: UDP
+    name: syslog
+  - port: 5656 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5656
+  - port: 5657 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5657
+  - port: 5658 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5658
+  - port: 5659 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5659
+  - port: 5660 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5660
+  - port: 5661 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5661
+  - port: 5662 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5662
+  - port: 5663 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5663
+  - port: 5664 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5664
+  - port: 5665 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5665
+  - port: 5666 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5666
+  - port: 5667 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5667
+  - port: 5668 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5668
+  - port: 5669 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5669
+  - port: 5670 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5670
+  - port: 5671 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5671
+  - port: 5672 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5672
+  - port: 5673 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5673
+  - port: 5674 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5674
+  - port: 5675 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5675
+  - port: 5676 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5676
+  - port: 5677 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5677
+  - port: 5678 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5678
+  - port: 5679 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5679
+  - port: 5680 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5680
+  - port: 5681 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5681
+  - port: 5682 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5682
+  - port: 5683 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5683
+  - port: 5684 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5684
+  - port: 5685 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5685
+  - port: 5686 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5686
+  - port: 5687 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5687
+  - port: 5688 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5688
+  - port: 5689 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5689
+  - port: 5690 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5690
+  - port: 5691 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5691
+  - port: 5692 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5692
+  - port: 5693 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5693
+  - port: 5694 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5694
+  - port: 5695 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5695
+  - port: 5696 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5696
+  - port: 5697 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5697
+  - port: 5698 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5698
+  - port: 5699 # UDP 5656-5699       Ports used by AP-EDU broadcasting.
+    protocol: UDP
+    name: ap-edu-5699
+  - port: 10001 # UDP	10001	Port used for device discovery
+    protocol: UDP
+    name: devdisco
+  - port: 1900 # UDP	1900	Port used for "Make controller discoverable on L2 network" in controller settings.
+    protocol: UDP
+    name: disco
+  selector:
+    app: unifi
+  type: LoadBalancer
+  loadBalancerIP: 192.168.1.222
