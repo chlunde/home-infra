@@ -2409,10 +2409,12 @@ items:
     namespace: velero
   spec:
     config:
-      region: us-east-2
+      region: minio
+      s3ForcePathStyle: "true"
+      s3Url: http://192.168.1.150:9000
     default: true
     objectStorage:
-      bucket: backups
+      bucket: k3s-backup
     provider: aws
 - apiVersion: velero.io/v1
   kind: VolumeSnapshotLocation
@@ -2424,7 +2426,9 @@ items:
     namespace: velero
   spec:
     config:
-      region: us-east-2
+      region: minio
+      s3ForcePathStyle: "true"
+      s3Url: http://192.168.1.150:9000
     provider: aws
 - apiVersion: apps/v1
   kind: Deployment
@@ -2465,6 +2469,14 @@ items:
                 fieldPath: metadata.namespace
           - name: LD_LIBRARY_PATH
             value: /plugins
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /credentials/cloud
+          - name: AWS_SHARED_CREDENTIALS_FILE
+            value: /credentials/cloud
+          - name: AZURE_CREDENTIALS_FILE
+            value: /credentials/cloud
+          - name: ALIBABA_CLOUD_CREDENTIALS_FILE
+            value: /credentials/cloud
           image: velero/velero:v1.7.0
           imagePullPolicy: IfNotPresent
           name: velero
@@ -2483,6 +2495,8 @@ items:
             name: plugins
           - mountPath: /scratch
             name: scratch
+          - mountPath: /credentials
+            name: cloud-credentials
         initContainers:
         - image: velero/velero-plugin-for-aws:v1.3.0
           imagePullPolicy: IfNotPresent
@@ -2498,6 +2512,9 @@ items:
           name: plugins
         - emptyDir: {}
           name: scratch
+        - name: cloud-credentials
+          secret:
+            secretName: cloud-credentials
 - apiVersion: apps/v1
   kind: DaemonSet
   metadata:
@@ -2535,6 +2552,14 @@ items:
                 fieldPath: metadata.namespace
           - name: VELERO_SCRATCH_DIR
             value: /scratch
+          - name: GOOGLE_APPLICATION_CREDENTIALS
+            value: /credentials/cloud
+          - name: AWS_SHARED_CREDENTIALS_FILE
+            value: /credentials/cloud
+          - name: AZURE_CREDENTIALS_FILE
+            value: /credentials/cloud
+          - name: ALIBABA_CLOUD_CREDENTIALS_FILE
+            value: /credentials/cloud
           image: velero/velero:v1.7.0
           imagePullPolicy: IfNotPresent
           name: restic
@@ -2551,6 +2576,8 @@ items:
             name: host-pods
           - mountPath: /scratch
             name: scratch
+          - mountPath: /credentials
+            name: cloud-credentials
         securityContext:
           runAsUser: 0
         serviceAccountName: velero
@@ -2560,6 +2587,9 @@ items:
           name: host-pods
         - emptyDir: {}
           name: scratch
+        - name: cloud-credentials
+          secret:
+            secretName: cloud-credentials
     updateStrategy: {}
 kind: List
 
