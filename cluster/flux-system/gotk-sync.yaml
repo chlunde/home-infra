@@ -9,7 +9,7 @@ spec:
   ref:
     branch: main
   secretRef:
-    name: flux-system
+    name: ssh-credentials
   url: ssh://git@github.com/chlunde/home-infra
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
@@ -24,3 +24,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-gpg
