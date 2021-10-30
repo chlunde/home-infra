@@ -24,10 +24,8 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-      - name: Secret Detector
-        uses: evanextreme/detect-secrets-action@1.0.0
       - name: Kubeval
-        uses: instrumenta/kubeval-action@a4e3d91
+        uses: instrumenta/kubeval-action@5915e4adba5adccac07cb156b82e54c3fed74921
         with:
           version: "master"
           files: 'cluster'
