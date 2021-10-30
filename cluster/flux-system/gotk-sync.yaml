@@ -8,12 +8,11 @@ spec:
   interval: 1m0s
   ref:
     branch: main
-    #secretRef:
-    #name: flux-system
-  #url: ssh://git@github.com/chlunde/home-infra
-  url: https://github.com/chlunde/home-infra
+  secretRef:
+    name: flux-system
+  url: ssh://git@github.com/chlunde/home-infra
 ---
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta2
 kind: Kustomization
 metadata:
   name: flux-system
@@ -25,8 +24,3 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  validation: client
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-gpg
