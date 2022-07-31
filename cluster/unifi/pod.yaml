@@ -9,7 +9,7 @@ spec:
   hostNetwork: true
   containers:
   - name: unifi
-    image: jacobalberty/unifi:v7.1.66
+    image: jacobalberty/unifi:v7.1.68
     imagePullPolicy: IfNotPresent
     volumeMounts:
     - name: volv
