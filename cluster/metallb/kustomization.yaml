@@ -6,12 +6,11 @@ metadata:
 namespace: metallb-system
 
 resources:
-- namespace.yaml
 - metallb.yaml
 - cm.yaml
 
 images:
 - name: quay.io/metallb/speaker
-  newTag: v0.11.0
+  newTag: v0.13.5
 - name: quay.io/metallb/controller
-  newTag: v0.11.0
+  newTag: v0.13.5
