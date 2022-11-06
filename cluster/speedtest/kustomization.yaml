@@ -5,7 +5,7 @@ metadata:
 
 namespace: speedtest
 
-resources: []
-#- namespace.yaml
-#- ingress.yaml
-#- speedtest.yaml
+resources:
+- namespace.yaml
+- ingress.yaml
+- speedtest.yaml
