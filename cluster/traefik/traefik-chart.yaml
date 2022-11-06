@@ -26,14 +26,14 @@ spec:
     #  - "--providers.kubernetesingress.ingressclass=traefik-internal"
     - "--serverstransport.insecureskipverify=true"
     - "--providers.kubernetesingress.ingressendpoint.publishedservice=traefik/traefik"
-    - "--log.level=DEBUG"
+    - "--log.level=INFO"
     logs:
       general:
         # By default, the logs use a text format (common), but you can
         # also ask for the json format in the format option
         # format: json
         # By default, the level is set to ERROR. Alternative logging levels are DEBUG, PANIC, FATAL, ERROR, WARN, and INFO.
-        level: DEBUG
+        level: INFO
       access:
         # To enable access logs
         enabled: true
