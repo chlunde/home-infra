@@ -12,6 +12,6 @@ resources:
 
 images:
 - name: quay.io/metallb/speaker
-  newTag: v0.13.5
+  newTag: v0.13.7
 - name: quay.io/metallb/controller
-  newTag: v0.13.5
+  newTag: v0.13.7
