@@ -1,21 +1,5 @@
-# This manifest deploys the OpenEBS control plane components, 
-# with associated CRs & RBAC rules
+# This manifest deploys the OpenEBS control plane components, with associated CRs & RBAC rules
 # NOTE: On GKE, deploy the openebs-operator.yaml in admin context
-#
-# NOTE: The Jiva and cStor components previously included in the Operator File  
-#  are now removed and it is recommended for users to use cStor and Jiva CSI operators. 
-#  To upgrade your Jiva and cStor volumes to CSI, please checkout the documentation at:
-#  https://github.com/openebs/upgrade
-#
-# To deploy the legacy Jiva and cStor:
-# kubectl apply -f https://openebs.github.io/charts/legacy-openebs-operator.yaml
-# 
-# To deploy cStor CSI:
-# kubectl apply -f https://openebs.github.io/charts/cstor-operator.yaml
-#
-# To deploy Jiva CSI:
-# kubectl apply -f https://openebs.github.io/charts/jiva-operator.yaml
-#
 
 # Create the OpenEBS namespace
 apiVersion: v1
@@ -49,34 +33,19 @@ rules:
   resources: ["resourcequotas", "limitranges"]
   verbs: ["list", "watch"]
 - apiGroups: ["*"]
-  resources: ["ingresses", "horizontalpodautoscalers", "verticalpodautoscalers", "certificatesigningrequests"]
+  resources: ["ingresses", "horizontalpodautoscalers", "verticalpodautoscalers", "poddisruptionbudgets", "certificatesigningrequests"]
   verbs: ["list", "watch"]
 - apiGroups: ["*"]
   resources: ["storageclasses", "persistentvolumeclaims", "persistentvolumes"]
   verbs: ["*"]
-- apiGroups: ["volumesnapshot.external-storage.k8s.io"]
-  resources: ["volumesnapshots", "volumesnapshotdatas"]
-  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
 - apiGroups: ["apiextensions.k8s.io"]
   resources: ["customresourcedefinitions"]
   verbs: [ "get", "list", "create", "update", "delete", "patch"]
 - apiGroups: ["openebs.io"]
   resources: [ "*"]
-  verbs: ["*" ]
-- apiGroups: ["cstor.openebs.io"]
-  resources: [ "*"]
-  verbs: ["*" ]
-- apiGroups: ["coordination.k8s.io"]
-  resources: ["leases"]
-  verbs: ["get", "watch", "list", "delete", "update", "create"]
-- apiGroups: ["admissionregistration.k8s.io"]
-  resources: ["validatingwebhookconfigurations", "mutatingwebhookconfigurations"]
-  verbs: ["get", "create", "list", "delete", "update", "patch"]
+  verbs: ["*"]
 - nonResourceURLs: ["/metrics"]
   verbs: ["get"]
-- apiGroups: ["*"]
-  resources: ["poddisruptionbudgets"]
-  verbs: ["get", "list", "create", "delete", "watch"]
 ---
 # Bind the Service Account with the Role Privileges.
 # TODO: Check if default account also needs to be there
@@ -516,6 +485,17 @@ data:
         state: true
         include: ""
         exclude: "/dev/loop,/dev/fd0,/dev/sr0,/dev/ram,/dev/md,/dev/dm-,/dev/rbd,/dev/zd"
+    # metconfig can be used to decorate the block device with different types of labels
+    # that are available on the node or come in a device properties.
+    # node labels - the node where bd is discovered. A whitlisted label prefixes
+    # attribute labels - a property of the BD can be added as a ndm label as ndm.io/<property>=<property-value>
+    metaconfigs:
+      - key: node-labels
+        name: node labels
+        pattern: ""
+      - key: device-labels
+        name: device labels
+        type: ""
 ---
 apiVersion: apps/v1
 kind: DaemonSet
@@ -525,7 +505,7 @@ metadata:
   labels:
     name: openebs-ndm
     openebs.io/component-name: ndm
-    openebs.io/version: 3.0.0
+    openebs.io/version: 3.3.0
 spec:
   selector:
     matchLabels:
@@ -538,7 +518,7 @@ spec:
       labels:
         name: openebs-ndm
         openebs.io/component-name: ndm
-        openebs.io/version: 3.0.0
+        openebs.io/version: 3.3.0
     spec:
       # By default the node-disk-manager will be run on all kubernetes nodes
       # If you would like to limit this to only some nodes, say the nodes
@@ -556,11 +536,14 @@ spec:
       #hostPID: true
       containers:
       - name: node-disk-manager
-        image: openebs/node-disk-manager:1.7.0
+        image: openebs/node-disk-manager:2.0.0
         args:
           - -v=4
         # The feature-gate is used to enable the new UUID algorithm.
           - --feature-gates="GPTBasedUUID"
+        # Use partition table UUID instead of create single partition to get
+        # partition UUID. Require `GPTBasedUUID` to be enabled with.
+        # - --feature-gates="PartitionTableUUID"
         # Detect changes to device size, filesystem and mount-points without restart.
         # - --feature-gates="ChangeDetection"
         # The feature gate is used to start the gRPC API service. The gRPC server
@@ -654,7 +637,7 @@ metadata:
   labels:
     name: openebs-ndm-operator
     openebs.io/component-name: ndm-operator
-    openebs.io/version: 3.0.0
+    openebs.io/version: 3.3.0
 spec:
   selector:
     matchLabels:
@@ -668,12 +651,12 @@ spec:
       labels:
         name: openebs-ndm-operator
         openebs.io/component-name: ndm-operator
-        openebs.io/version: 3.0.0
+        openebs.io/version: 3.3.0
     spec:
       serviceAccountName: openebs-maya-operator
       containers:
         - name: node-disk-operator
-          image: openebs/node-disk-operator:1.7.0
+          image: openebs/node-disk-operator:2.0.0
           imagePullPolicy: IfNotPresent
           env:
             - name: WATCH_NAMESPACE
@@ -692,7 +675,7 @@ spec:
             - name: OPERATOR_NAME
               value: "node-disk-operator"
             - name: CLEANUP_JOB_IMAGE
-              value: "openebs/linux-utils:3.0.0"
+              value: "openebs/linux-utils:3.3.0"
             # OPENEBS_IO_IMAGE_PULL_SECRETS environment variable is used to pass the image pull secrets
             # to the cleanup pod launched by NDM operator
             #- name: OPENEBS_IO_IMAGE_PULL_SECRETS
@@ -721,7 +704,7 @@ metadata:
   labels:
     name: openebs-ndm-cluster-exporter
     openebs.io/component-name: ndm-cluster-exporter
-    openebs.io/version: 3.0.0
+    openebs.io/version: 3.3.0
 spec:
   replicas: 1
   strategy:
@@ -735,12 +718,12 @@ spec:
       labels:
         name: openebs-ndm-cluster-exporter
         openebs.io/component-name: ndm-cluster-exporter
-        openebs.io/version: 3.0.0
+        openebs.io/version: 3.3.0
     spec:
       serviceAccountName: openebs-maya-operator
       containers:
         - name: ndm-cluster-exporter
-          image: openebs/node-disk-exporter:1.7.0
+          image: openebs/node-disk-exporter:2.0.0
           command:
             - /usr/local/bin/exporter
           args:
@@ -770,7 +753,7 @@ metadata:
   name: openebs-ndm-cluster-exporter-service
   namespace: openebs
   labels:
-    name: openebs-ndm-clsuter-exporter-service
+    name: openebs-ndm-cluster-exporter-service
     openebs.io/component-name: ndm-cluster-exporter
     app: openebs-ndm-exporter
 spec:
@@ -793,7 +776,7 @@ metadata:
   labels:
     name: openebs-ndm-node-exporter
     openebs.io/component-name: ndm-node-exporter
-    openebs.io/version: 3.0.0
+    openebs.io/version: 3.3.0
 spec:
   updateStrategy:
     type: RollingUpdate
@@ -806,12 +789,12 @@ spec:
       labels:
         name: openebs-ndm-node-exporter
         openebs.io/component-name: ndm-node-exporter
-        openebs.io/version: 3.0.0
+        openebs.io/version: 3.3.0
     spec:
       serviceAccountName: openebs-maya-operator
       containers:
         - name: node-disk-exporter
-          image: openebs/node-disk-exporter:1.7.0
+          image: openebs/node-disk-exporter:2.0.0
           command:
             - /usr/local/bin/exporter
           args:
@@ -863,7 +846,7 @@ metadata:
   labels:
     name: openebs-localpv-provisioner
     openebs.io/component-name: openebs-localpv-provisioner
-    openebs.io/version: 3.0.0
+    openebs.io/version: 3.3.0
 spec:
   selector:
     matchLabels:
@@ -877,13 +860,13 @@ spec:
       labels:
         name: openebs-localpv-provisioner
         openebs.io/component-name: openebs-localpv-provisioner
-        openebs.io/version: 3.0.0
+        openebs.io/version: 3.3.0
     spec:
       serviceAccountName: openebs-maya-operator
       containers:
       - name: openebs-provisioner-hostpath
         imagePullPolicy: IfNotPresent
-        image: openebs/provisioner-localpv:3.0.0
+        image: openebs/provisioner-localpv:3.3.0
         args:
           - "--bd-time-out=$(BDC_BD_BIND_RETRIES)"
         env:
@@ -897,10 +880,10 @@ spec:
         # This is supported for openebs provisioner version 0.5.2 onwards
         #- name: OPENEBS_IO_KUBE_CONFIG
         #  value: "/home/ubuntu/.kube/config"
-        #  This sets the number of times the provisioner should try 
-        #  with a polling interval of 5 seconds, to get the Blockdevice
-        #  Name from a BlockDeviceClaim, before the BlockDeviceClaim
-        #  is deleted. E.g. 12 * 5 seconds = 60 seconds timeout
+        # This sets the number of times the provisioner should try 
+        # with a polling interval of 5 seconds, to get the Blockdevice
+        # Name from a BlockDeviceClaim, before the BlockDeviceClaim
+        # is deleted. E.g. 12 * 5 seconds = 60 seconds timeout
         - name: BDC_BD_BIND_RETRIES
           value: "12"
         - name: NODE_NAME
@@ -920,9 +903,9 @@ spec:
         - name: OPENEBS_IO_ENABLE_ANALYTICS
           value: "true"
         - name: OPENEBS_IO_INSTALLER_TYPE
-          value: "openebs-operator"
+          value: "openebs-operator-lite"
         - name: OPENEBS_IO_HELPER_IMAGE
-          value: "openebs/linux-utils:3.0.0"
+          value: "openebs/linux-utils:3.3.0"
         - name: OPENEBS_IO_BASE_PATH
           value: "/var/openebs/local"
         # LEADER_ELECTION_ENABLED is used to enable/disable leader election. By default
@@ -948,43 +931,4 @@ spec:
           initialDelaySeconds: 30
           periodSeconds: 60
 ---
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: openebs-hostpath
-  annotations:
-    openebs.io/cas-type: local
-    cas.openebs.io/config: |
-      #hostpath type will create a PV by 
-      # creating a sub-directory under the
-      # BASEPATH provided below.
-      - name: StorageType
-        value: "hostpath"
-      #Specify the location (directory) where
-      # where PV(volume) data will be saved. 
-      # A sub-directory with pv-name will be 
-      # created. When the volume is deleted, 
-      # the PV sub-directory will be deleted.
-      #Default value is /var/openebs/local
-      - name: BasePath
-        value: "/var/openebs/local/"
-provisioner: openebs.io/local
-volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
----
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: openebs-device
-  annotations:
-    openebs.io/cas-type: local
-    cas.openebs.io/config: |
-      #device type will create a PV by
-      # issuing a BDC and will extract the path
-      # values from the associated BD.
-      - name: StorageType
-        value: "device"
-provisioner: openebs.io/local
-volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
----
+

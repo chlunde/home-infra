@@ -4,4 +4,5 @@ metadata:
    name: openebs
 
 resources:
-- openebs-operator.yaml
+- openebs-operator-lite.yaml
+- openebs-lite-sc.yaml
