@@ -7,7 +7,8 @@ namespace: metallb-system
 
 resources:
 - metallb.yaml
-- cm.yaml
+- pool.yaml
+- advertise.yaml
 
 images:
 - name: quay.io/metallb/speaker
