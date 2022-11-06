@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: loggbro
-        image: ghcr.io/chlunde/loggbro:c6782b9cf4d65ca8e34a50d99cb48ded83e2e2c9
+        image: ghcr.io/chlunde/loggbro:27d6023ed85c2ba6d12fa2a8fc7d53df520cb9a9
         env:
         - name: HUMIO_TOKEN
           valueFrom:
