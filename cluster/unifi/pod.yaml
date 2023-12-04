@@ -9,7 +9,7 @@ spec:
   hostNetwork: true
   containers:
   - name: unifi
-    image: jacobalberty/unifi:v7.5.176
+    image: nexusforge/unifi-docker:v8.0.7
     imagePullPolicy: IfNotPresent
     volumeMounts:
     - name: volv
